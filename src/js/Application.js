@@ -2,82 +2,54 @@ import EventEmitter from "eventemitter3";
 import image from "../images/planet.svg";
 
 export default class Application extends EventEmitter {
-  static get events() {
-    return {
-      READY: "ready",
-    };
-  }
+    static get events() {
+        return {
+            READY: "ready",
+        };
+    }
 
-  constructor() {
-    super();
-    this._loading = document.querySelector(".progress");
-    this._findAllPlanets(1);
+    constructor() {
+        super();
 
-    this.emit(Application.events.READY);
-  }
+        this._loading = document.querySelector("progress");
+        this._pages = [];
 
-  _findAllPlanets(pageNumber) {
-      let hasFinished = true;
+        this._startLoading().then((e) => {
+            for (let page of this._pages) {
+                for (let planet of page.results) {
+                    const getProps = ({ name, terrain, population }) => ({
+                        name,
+                        terrain,
+                        population,
+                    });
+                    this._create(getProps(planet));
+                }
+            }
+        });
 
-      this._load(pageNumber)
-      .then(data => {
-        hasFinished = Object.is(data.next, null);
-        return data.results
-      })
-      .then(planets => {
-        // Do something with the planets
-        // console.log(planets)
-        planets.forEach(p => this._create(p))
-        
-        if(!hasFinished){
-          return this._findAllPlanets(pageNumber + 1);
-        }
-      })
-      .catch(err => console.error(err.message))
-  }
+        this.emit(Application.events.READY);
+    }
 
-  async _load(pageNumber){ 
-    // Fetch from all pages https://swapi.boom.dev/api/planets?page=
-    this._startLoading();
-    try {
-      let responce = await fetch(`https://swapi.boom.dev/api/planets?page=${pageNumber}`)
-      if(responce.status === 200){
+    async _load(url) {
+        if (!url) return;
+        let response = await fetch(url);
+        let data = await response.json();
+        this._pages.push(data);
+        await this._load(data.next);
+    }
+
+    _stopLoading() {
+        this._loading.style.visibility = "hidden";
+    }
+
+    async _startLoading() {
+        this._loading.style.visibility = "visible";
+        await this._load("https://swapi.boom.dev/api/planets");
         this._stopLoading();
-        return await responce.json();
-      }
-      throw new Error("Can't fetch resource!");
     }
-    catch(err){
-      console.error(err.message)
-    }
-    finally {
-      this._stopLoading();  
-    }
-  }
 
-  _startLoading(){
-    this._loading.style.visibility = "visible"; 
-  }
-
-  _stopLoading(){
-    this._loading.style.visibility = "hidden"; 
-  }
-
-  _create({name, terrain, population}){
-    // For rendering of boxes (planets)
-    const box = document.createElement("div");
-    box.classList.add("box");
-    box.innerHTML = this._render({
-      name,
-      terrain,
-      population
-    });
-
-    document.body.querySelector(".main").appendChild(box);
-  }
-  
-  _render({ name, terrain, population }) {
-    return `
+    _render({ name, terrain, population }) {
+        return `
 <article class="media">
   <div class="media-left">
     <figure class="image is-64x64">
@@ -95,5 +67,17 @@ export default class Application extends EventEmitter {
   </div>
 </article>
     `;
-  }
+    }
+
+    _create({ name, terrain, population }) {
+        const box = document.createElement("div");
+        box.classList.add("box");
+        box.innerHTML = this._render({
+            name: name,
+            terrain: terrain,
+            population: population,
+        });
+
+        document.body.querySelector(".main").appendChild(box);
+    }
 }
