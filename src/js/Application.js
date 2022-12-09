@@ -24,7 +24,7 @@ export default class Application extends EventEmitter {
                     document.querySelector('.progress').style.display = 'none';
                     document.body.querySelector(".main").appendChild(box);
                 });
-            })
+            });
 
         this.emit(Application.events.READY);
     }
@@ -35,6 +35,18 @@ export default class Application extends EventEmitter {
         return planets.results;
     }
 
+    _create() {
+
+    }
+
+    _startLoadig() {
+
+    }
+
+    _stopLoadig() {
+
+    }
+    
     _render({ name, terrain, population }) {
         return `
 <article class="media">
