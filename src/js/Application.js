@@ -24,8 +24,8 @@ export default class Application extends EventEmitter {
 
     _create() {
         this._load()
-            .then(planets => {
-                planets.forEach(element => {
+            .then(result => {
+                result.forEach(element => {
                     const box = document.createElement("div");
                     box.classList.add("box");
                     box.innerHTML = this._render({
@@ -34,7 +34,7 @@ export default class Application extends EventEmitter {
                         population: element.population,
                     });
                     this._stopLoadig(false);
-                    document.body.appendChild(box);
+                    document.body.querySelector(".main").appendChild(box);
                 });
             });
     }
