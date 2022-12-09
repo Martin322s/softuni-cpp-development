@@ -24,22 +24,20 @@ export default class Application extends EventEmitter {
     }
 
     _create() {
-        setTimeout(() => {
-            this._load()
-                .then(result => {
-                    result.forEach(element => {
-                        const box = document.createElement("div");
-                        box.classList.add("box");
-                        box.innerHTML = this._render({
-                            name: element.name,
-                            terrain: element.terrain,
-                            population: element.population,
-                        });
-                        this._stopLoadig(false);
-                        document.body.querySelector(".main").appendChild(box);
+        this._load()
+            .then(result => {
+                result.forEach(element => {
+                    const box = document.createElement("div");
+                    box.classList.add("box");
+                    box.innerHTML = this._render({
+                        name: element.name,
+                        terrain: element.terrain,
+                        population: element.population,
                     });
+                    this._stopLoadig(false);
+                    document.body.querySelector(".main").appendChild(box);
                 });
-        }, 3000)
+            });
     }
 
     _startLoadig(isLoading) {
