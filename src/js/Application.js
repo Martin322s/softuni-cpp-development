@@ -10,20 +10,20 @@ export default class Application extends EventEmitter {
 
     constructor() {
         super();
-        this._loading = document.querySelector('.progress');
-        this._startLoadig(true);
-        this._create();
+        this.loading = document.querySelector('.progress');
+        this.startLoadig(true);
+        this.create();
 
         this.emit(Application.events.READY);
     }
 
-    async _load() {
+    async load() {
         const res = await fetch('https://swapi.boom.dev/api/planets');
         const planets = await res.json();
         return planets.results;
     }
 
-    _create() {
+    create() {
         this._load()
             .then(result => {
                 result.forEach(element => {
@@ -40,7 +40,7 @@ export default class Application extends EventEmitter {
             });
     }
 
-    _startLoadig(isLoading) {
+    startLoadig(isLoading) {
         if (isLoading) {
             this._loading.style.display = 'block';
         } else {
@@ -48,7 +48,7 @@ export default class Application extends EventEmitter {
         }
     }
 
-    _stopLoadig(isLoading) {
+    stopLoadig(isLoading) {
         if (isLoading) {
             this._loading.style.display = 'block';
         } else {
@@ -56,23 +56,24 @@ export default class Application extends EventEmitter {
         }
     }
 
-    _render({ name, terrain, population }) {
+    render({ name, terrain, population }) {
         return `
-    <article class="media">
-    <div class="media-left">
-        <figure class="image is-64x64">
-            <img src="${image}" alt="planet">
-        </figure>
-    </div>
-        <div class="media-content">
-            <div class="content">
-                <h4>${name}</h4>
-                <p>
-                    <span class="tag">${terrain}</span> <span class="tag">${population}</span>
-                <br>
-                </p>
-            </div>
-        </div>
-    </article>`;
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                        <img src="${image}" alt="planet">
+                    </figure>
+                </div>
+                    <div class="media-content">
+                        <div class="content">
+                            <h4>${name}</h4>
+                            <p>
+                                <span class="tag">${terrain}</span> 
+                                <span class="tag">${population}</span>
+                                <br>
+                            </p>
+                        </div>
+                    </div>
+            </article>`;
     }
 }
