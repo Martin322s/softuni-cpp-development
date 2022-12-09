@@ -10,21 +10,10 @@ export default class Application extends EventEmitter {
 
     constructor() {
         super();
-
-        this._load()
-            .then(result => {
-                result.forEach(element => {
-                    const box = document.createElement("div");
-                    box.classList.add("box");
-                    box.innerHTML = this._render({
-                        name: element.name,
-                        terrain: element.terrain,
-                        population: element.population,
-                    });
-                    document.querySelector('.progress').style.display = 'none';
-                    document.body.querySelector(".main").appendChild(box);
-                });
-            });
+        this._loading = document.querySelector('.progress');
+        setTimeout(() => {
+            this._create();
+        }, 3000);
 
         this.emit(Application.events.READY);
     }
@@ -36,7 +25,20 @@ export default class Application extends EventEmitter {
     }
 
     _create() {
-
+        this._load()
+            .then(result => {
+                result.forEach(element => {
+                    const box = document.createElement("div");
+                    box.classList.add("box");
+                    box.innerHTML = this._render({
+                        name: element.name,
+                        terrain: element.terrain,
+                        population: element.population,
+                    });
+                    this._loading.style.display = 'none';
+                    document.body.querySelector(".main").appendChild(box);
+                });
+            });
     }
 
     _startLoadig() {
@@ -46,7 +48,7 @@ export default class Application extends EventEmitter {
     _stopLoadig() {
 
     }
-    
+
     _render({ name, terrain, population }) {
         return `
 <article class="media">
