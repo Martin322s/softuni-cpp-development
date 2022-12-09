@@ -1,4 +1,5 @@
-import EventEmitter from "eventemitter3";
+import 'regenerator-runtime/runtime'
+import EventEmitter, { prototype } from "eventemitter3";
 import image from "../images/planet.svg";
 
 export default class Application extends EventEmitter {
@@ -10,42 +11,10 @@ export default class Application extends EventEmitter {
 
     constructor() {
         super();
-
-        this._loading = document.querySelector("progress");
-        this._pages = [];
-
-        this._startLoading().then((e) => {
-            for (let page of this._pages) {
-                for (let planet of page.results) {
-                    const getProps = ({ name, terrain, population }) => ({
-                        name,
-                        terrain,
-                        population,
-                    });
-                    this._create(getProps(planet));
-                }
-            }
-        });
+        this._create();
+        this._loading = document.querySelector('progress');
 
         this.emit(Application.events.READY);
-    }
-
-    async _load(url) {
-        if (!url) return;
-        let response = await fetch(url);
-        let data = await response.json();
-        this._pages.push(data);
-        await this._load(data.next);
-    }
-
-    _stopLoading() {
-        this._loading.style.visibility = "hidden";
-    }
-
-    async _startLoading() {
-        this._loading.style.visibility = "visible";
-        await this._load("https://swapi.boom.dev/api/planets");
-        this._stopLoading();
     }
 
     _render({ name, terrain, population }) {
@@ -67,17 +36,68 @@ export default class Application extends EventEmitter {
   </div>
 </article>
     `;
-    }
+    };
 
-    _create({ name, terrain, population }) {
+    async _load() {
+        this._startLoading();
+
+        async function getData(point) {
+            const url = new URL(String(point));
+            const promise = await fetch(url, {
+                method: "GET",
+            });
+            return await promise.json();
+        };
+
+        const planetsArray = [];
+        let data = await getData('https://swapi.boom.dev/api/planets');
+
+        planetsArray.push(data.results);
+
+        while (this._checkIfNext(data) !== true) {
+            const currentData = await getData(data.next);
+            planetsArray.push(currentData.results);
+            data = await currentData;
+        }
+
+        this._stopLoading();
+
+        return planetsArray;
+    };
+
+
+    _checkIfNext(obj) {
+        if (obj.next !== null) {
+            return false;
+        } else {
+            return true;
+        };
+    };
+
+    async _create() {
         const box = document.createElement("div");
         box.classList.add("box");
-        box.innerHTML = this._render({
-            name: name,
-            terrain: terrain,
-            population: population,
-        });
+
+        const planets = await this._load();
+        planets.forEach(element => {
+            element.forEach(planet => {
+                const name = planet.name;
+                const terrain = planet.terrain;
+                const population = planet.population;
+                box.innerHTML += this._render({ name, terrain, population });
+            })
+        })
 
         document.body.querySelector(".main").appendChild(box);
+
+    };
+
+    _startLoading() {
+        document.querySelector('progress').style.display = 'block';
     }
-}
+
+    _stopLoading() {
+        document.querySelector('progress').style.display = 'none';
+    }
+
+};
