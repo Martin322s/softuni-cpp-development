@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'
-import EventEmitter, { prototype } from "eventemitter3";
+import EventEmitter from "eventemitter3";
 import image from "../images/planet.svg";
 
 export default class Application extends EventEmitter {
@@ -11,36 +11,14 @@ export default class Application extends EventEmitter {
 
     constructor() {
         super();
-        this._create();
         this._loading = document.querySelector('progress');
+        this._startLoading();
+        this._create();
 
         this.emit(Application.events.READY);
     }
 
-    _render({ name, terrain, population }) {
-        return `
-<article class="media">
-  <div class="media-left">
-    <figure class="image is-64x64">
-      <img src="${image}" alt="planet">
-    </figure>
-  </div>
-  <div class="media-content">
-    <div class="content">
-    <h4>${name}</h4>
-      <p>
-        <span class="tag">${terrain}</span> <span class="tag">${population}</span>
-        <br>
-      </p>
-    </div>
-  </div>
-</article>
-    `;
-    };
-
     async _load() {
-        this._startLoading();
-
         async function getData(point) {
             const url = new URL(String(point));
             const promise = await fetch(url, {
@@ -100,4 +78,25 @@ export default class Application extends EventEmitter {
         document.querySelector('progress').style.display = 'none';
     }
 
+    _render({ name, terrain, population }) {
+        return `
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                        <img src="${image}" alt="planet">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="content">
+                        <h4>${name}</h4>
+                        <p>
+                            <span class="tag">${terrain}</span> 
+                            <span class="tag">${population}</span>
+                            <br>
+                        </p>
+                        </div>
+                    </div>
+                </article>
+                    `;
+    };
 };
