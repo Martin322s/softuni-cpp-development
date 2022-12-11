@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime'
+import 'regenerator-runtime/runtime';
 import EventEmitter from "eventemitter3";
 import image from "../images/planet.svg";
 
@@ -19,55 +19,25 @@ export default class Application extends EventEmitter {
     }
 
     async _load() {
-        async function getData(point) {
-            const url = new URL(String(point));
-            const promise = await fetch(url, {
-                method: "GET",
-            });
-            return await promise.json();
-        };
-
-        const planetsArray = [];
-        let data = await getData('https://swapi.boom.dev/api/planets');
-
-        planetsArray.push(data.results);
-
-        while (this._checkIfNext(data) !== true) {
-            const currentData = await getData(data.next);
-            planetsArray.push(currentData.results);
-            data = await currentData;
-        }
-
-        this._stopLoading();
-
-        return planetsArray;
-    };
-
-
-    _checkIfNext(obj) {
-        if (obj.next !== null) {
-            return false;
-        } else {
-            return true;
-        };
+        const res = await fetch("https://swapi.boom.dev/api/planets");
+        return await res.json();
     };
 
     async _create() {
-        const box = document.createElement("div");
-        box.classList.add("box");
-
-        const planets = await this._load();
-        planets.forEach(element => {
-            element.forEach(planet => {
-                const name = planet.name;
-                const terrain = planet.terrain;
-                const population = planet.population;
-                box.innerHTML += this._render({ name, terrain, population });
+        this._load()
+            .then(res => {
+                res.results.forEach(element => {
+                    const box = document.createElement("div");
+                    box.classList.add("box");
+                    box.innerHTML = this._render({
+                        name: element.name,
+                        terrain: element.terrain,
+                        population: element.population
+                    });
+                    this._stopLoading();
+                    document.body.querySelector(".main").appendChild(box);
+                });
             })
-        })
-
-        document.body.querySelector(".main").appendChild(box);
-
     };
 
     _startLoading() {
