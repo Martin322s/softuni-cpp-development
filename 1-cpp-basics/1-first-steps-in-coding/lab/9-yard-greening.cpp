@@ -6,7 +6,7 @@ int main() {
 	const double DISCOUNT_PERCENT = 0.18;
 	double totalPrice, discount;
 	
-	int yardSize;
+	double yardSize;
 	cin >> yardSize;
 	
 	totalPrice = yardSize * YARD_GREENING_PRICE;
