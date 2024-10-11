@@ -13,4 +13,6 @@ int main() {
 	cout.precision(2);
 	
 	cout << sumInBGN << endl;
+	
+	return 0;
 }

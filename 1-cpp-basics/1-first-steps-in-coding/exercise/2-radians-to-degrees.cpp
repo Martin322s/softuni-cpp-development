@@ -10,4 +10,6 @@ int main() {
 	degrees = radians * (180 / 3.14);
 	
 	cout << round(degrees) << endl;
+	
+	return 0;
 }
