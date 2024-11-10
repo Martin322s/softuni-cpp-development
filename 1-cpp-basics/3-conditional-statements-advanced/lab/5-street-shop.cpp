@@ -33,9 +33,7 @@ int main() {
 
     if (price > 0) {
         double totalCost = quantity * price;
-        std::cout << "Total cost: " << totalCost << std::endl;
-    } else {
-        std::cout << "Invalid product or city!" << std::endl;
+        cout << totalCost << endl;
     }
 
     return 0;
