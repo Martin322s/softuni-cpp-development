@@ -48,7 +48,7 @@ int main() {
 
     cout.setf(ios::fixed);
     cout.precision(2);
-    cout << "The total price for the stay is: " << totalPrice << " lv." << endl;
+    cout << totalPrice << endl;
 
     return 0;
 }
