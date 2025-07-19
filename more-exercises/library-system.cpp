@@ -34,7 +34,16 @@ public:
         }
     }
 
-    
+    void borrowBook(string isbn) {
+        for (auto &b : books) {
+            if (b.isbn == isbn && !b.isBorrowed) {
+                b.isBorrowed = true;
+                cout << "Book borrowed!\n";
+                return;
+            }
+        }
+        cout << "Book not available!\n";
+    }
 };
 
 int main()
