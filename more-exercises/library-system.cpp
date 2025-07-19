@@ -14,7 +14,7 @@ class Book {
 		int year;
 		bool isBorrowed = false;
 
-		
+		Book(string t, string a, string i, int y) : title(t), author(a), isbn(i), year(y) {}
 };
 
 int main()
