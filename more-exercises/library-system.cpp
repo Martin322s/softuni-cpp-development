@@ -17,6 +17,14 @@ class Book {
 		Book(string t, string a, string i, int y) : title(t), author(a), isbn(i), year(y) {}
 };
 
+class Library {
+private:
+    vector<Book> books;
+
+public:
+   
+};
+
 int main()
 {
 
