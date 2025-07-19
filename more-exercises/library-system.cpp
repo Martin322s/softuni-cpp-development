@@ -26,6 +26,14 @@ public:
         books.push_back(b);
     }
 
+    void listBooks() {
+        for (auto &b : books) {
+            cout << b.title << " by " << b.author 
+                 << " (" << b.year << ")" 
+                 << (b.isBorrowed ? " - Borrowed" : " - Available") << endl;
+        }
+    }
+
     
 };
 
