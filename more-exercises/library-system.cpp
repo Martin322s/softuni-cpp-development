@@ -22,7 +22,11 @@ private:
     vector<Book> books;
 
 public:
-   
+    void addBook(const Book& b) {
+        books.push_back(b);
+    }
+
+    
 };
 
 int main()
