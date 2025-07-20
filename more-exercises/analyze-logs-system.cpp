@@ -23,6 +23,13 @@ struct LogEntry
 	long bytes = 0;
 };
 
+static inline string trim(const string& s) {
+    size_t l = 0, r = s.size();
+    while (l < r && isspace((unsigned char)s[l])) l++;
+    while (r > l && isspace((unsigned char)s[r-1])) r--;
+    return s.substr(l, r - l);
+}
+
 int main()
 {
 
