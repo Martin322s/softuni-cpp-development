@@ -47,6 +47,12 @@ optional<LogEntry> parseLineNoRegex(const string &line)
 	size_t q2 = line.find('"', q1 + 1);
 	if (q2 == string::npos)
 		return nullopt;
+
+	string request = line.substr(q1 + 1, q2 - (q1 + 1));
+	istringstream req(request);
+	string method, url, protocol;
+	if (!(req >> method >> url >> protocol))
+		return nullopt;
 }
 
 int main()
