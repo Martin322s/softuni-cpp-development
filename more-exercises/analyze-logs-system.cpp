@@ -40,6 +40,13 @@ optional<LogEntry> parseLineNoRegex(const string &line)
 	if (pos == string::npos)
 		return nullopt;
 	string ip = line.substr(0, pos);
+
+	size_t q1 = line.find('"', pos);
+	if (q1 == string::npos)
+		return nullopt;
+	size_t q2 = line.find('"', q1 + 1);
+	if (q2 == string::npos)
+		return nullopt;
 }
 
 int main()
