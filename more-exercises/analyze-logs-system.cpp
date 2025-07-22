@@ -53,6 +53,9 @@ optional<LogEntry> parseLineNoRegex(const string &line)
 	string method, url, protocol;
 	if (!(req >> method >> url >> protocol))
 		return nullopt;
+
+	size_t after = q2 + 1;
+	while (after < line.size() && line[after] == ' ') after++;
 }
 
 int main()
