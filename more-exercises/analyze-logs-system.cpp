@@ -56,6 +56,8 @@ optional<LogEntry> parseLineNoRegex(const string &line)
 
 	size_t after = q2 + 1;
 	while (after < line.size() && line[after] == ' ') after++;
+
+	string rest = (after < line.size()) ? line.substr(after) : "";
 }
 
 int main()
