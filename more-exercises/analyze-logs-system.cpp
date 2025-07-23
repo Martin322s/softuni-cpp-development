@@ -95,6 +95,11 @@ int main()
 	cout << "Enter log file path: ";
 	getline(cin, filename);
 
-	
+	ifstream in(filename);
+	if (!in.is_open())
+	{
+		cerr << "Cannot open file: " << filename << "\n";
+		return 1;
+	}
 	return 0;
 }
