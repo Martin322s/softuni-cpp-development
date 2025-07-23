@@ -78,6 +78,15 @@ optional<LogEntry> parseLineNoRegex(const string &line)
 			bytes = 0;
 		}
 	}
+
+	LogEntry e;
+	e.ip = ip;
+	e.method = method;
+	e.url = url;
+	e.protocol = protocol;
+	e.status = status;
+	e.bytes = bytes;
+	return e;
 }
 
 int main()
