@@ -55,9 +55,29 @@ optional<LogEntry> parseLineNoRegex(const string &line)
 		return nullopt;
 
 	size_t after = q2 + 1;
-	while (after < line.size() && line[after] == ' ') after++;
+	while (after < line.size() && line[after] == ' ')
+		after++;
 
 	string rest = (after < line.size()) ? line.substr(after) : "";
+
+	istringstream tail(rest);
+	int status = 0;
+	string bytesStr;
+	if (!(tail >> status >> bytesStr))
+		return nullopt;
+
+	long bytes = 0;
+	if (bytesStr != "-" && !bytesStr.empty())
+	{
+		try
+		{
+			bytes = stol(bytesStr);
+		}
+		catch (...)
+		{
+			bytes = 0;
+		}
+	}
 }
 
 int main()
