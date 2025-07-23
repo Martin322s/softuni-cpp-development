@@ -91,6 +91,10 @@ optional<LogEntry> parseLineNoRegex(const string &line)
 
 int main()
 {
+	string filename;
+	cout << "Enter log file path: ";
+	getline(cin, filename);
 
+	
 	return 0;
 }
