@@ -101,5 +101,15 @@ int main()
 		cerr << "Cannot open file: " << filename << "\n";
 		return 1;
 	}
+
+	vector<LogEntry> logs;
+	string line;
+	while (getline(in, line))
+	{
+		auto e = parseLineNoRegex(line);
+		if (e)
+			logs.push_back(*e);
+	}
+	
 	return 0;
 }
