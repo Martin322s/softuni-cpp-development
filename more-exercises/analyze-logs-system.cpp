@@ -110,6 +110,11 @@ int main()
 		if (e)
 			logs.push_back(*e);
 	}
-	
+
+	map<string, int> ipCount;
+	map<int, int> statusCount;
+	map<string, int> urlCount;
+	long long totalBytes = 0;
+
 	return 0;
 }
