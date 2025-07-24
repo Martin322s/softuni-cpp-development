@@ -129,5 +129,10 @@ int main()
 		 [](auto &a, auto &b)
 		 { return a.second > b.second; });
 
+	vector<pair<string, int>> topUrls(urlCount.begin(), urlCount.end());
+	sort(topUrls.begin(), topUrls.end(),
+		 [](auto &a, auto &b)
+		 { return a.second > b.second; });
+
 	return 0;
 }
