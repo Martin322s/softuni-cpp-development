@@ -116,5 +116,13 @@ int main()
 	map<string, int> urlCount;
 	long long totalBytes = 0;
 
+	for (auto &e : logs)
+	{
+		ipCount[e.ip]++;
+		statusCount[e.status]++;
+		urlCount[e.url]++;
+		totalBytes += e.bytes;
+	}
+
 	return 0;
 }
