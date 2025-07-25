@@ -134,5 +134,14 @@ int main()
 		 [](auto &a, auto &b)
 		 { return a.second > b.second; });
 
+	cout << "\nParsed entries: " << logs.size() << "\n";
+	cout << "Total bytes: " << totalBytes << "\n";
+
+	cout << "\nHTTP Status Codes:\n";
+	for (auto &[st, cnt] : statusCount)
+	{
+		cout << "  " << st << " -> " << cnt << "\n";
+	}
+
 	return 0;
 }
