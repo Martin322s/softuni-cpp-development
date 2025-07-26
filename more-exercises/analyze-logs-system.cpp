@@ -150,5 +150,11 @@ int main()
 		cout << "  " << topIps[i].first << " -> " << topIps[i].second << "\n";
 	}
 
+	cout << "\nTop " << N << " URLs:\n";
+	for (int i = 0; i < (int)topUrls.size() && i < N; i++)
+	{
+		cout << "  " << topUrls[i].first << " -> " << topUrls[i].second << "\n";
+	}
+
 	return 0;
 }
