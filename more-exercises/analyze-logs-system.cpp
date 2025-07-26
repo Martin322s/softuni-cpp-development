@@ -143,5 +143,12 @@ int main()
 		cout << "  " << st << " -> " << cnt << "\n";
 	}
 
+	int N = 5;
+	cout << "\nTop " << N << " IPs:\n";
+	for (int i = 0; i < (int)topIps.size() && i < N; i++)
+	{
+		cout << "  " << topIps[i].first << " -> " << topIps[i].second << "\n";
+	}
+
 	return 0;
 }
