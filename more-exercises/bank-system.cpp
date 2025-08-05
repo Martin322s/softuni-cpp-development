@@ -24,5 +24,8 @@ public:
 		}
 		return false;
 	}
-	
+	double getBalance() const
+	{
+		return balance;
+	}
 };
