@@ -15,5 +15,14 @@ public:
 	{
 		balance += amount;
 	}
+	bool withdraw(double amount)
+	{
+		if (amount <= balance)
+		{
+			balance -= amount;
+			return true;
+		}
+		return false;
+	}
 	
 };
