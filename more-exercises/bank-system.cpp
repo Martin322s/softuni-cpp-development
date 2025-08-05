@@ -10,5 +10,10 @@ public:
 	{
 		balance = initialBalance;
 	}
+
+	void deposit(double amount)
+	{
+		balance += amount;
+	}
 	
 };
