@@ -29,3 +29,12 @@ public:
 		return balance;
 	}
 };
+
+int main()
+{
+	BankAccount acc(100);
+	acc.deposit(50);
+	cout << acc.getBalance() << endl;
+	acc.withdraw(70);
+	cout << acc.getBalance() << endl;
+}
