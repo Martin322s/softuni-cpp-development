@@ -30,6 +30,11 @@ public:
 	{
 		return rating;
 	}
+
+	void setGenre(const string &g)
+	{
+		genre = g;
+	}
 };
 
 int main()
