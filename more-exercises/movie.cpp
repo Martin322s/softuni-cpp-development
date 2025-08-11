@@ -49,8 +49,14 @@ public:
 
 int main()
 {
-	Movie m("Inception", 2010, 8.8);
+	Movie m("Inception", 2010, 8.8, "Sci-Fi");
+
 	cout << m.getInfo() << endl;
+
 	m.setRating(9.0);
+	m.setGenre("Science Fiction");
+
 	cout << m.getInfo() << endl;
+	cout << "Genre: " << m.getGenre() << endl;
+	cout << "Is classic? " << (m.isClassic() ? "Yes" : "No") << endl;
 }
