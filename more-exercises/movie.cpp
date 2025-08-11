@@ -35,6 +35,11 @@ public:
 	{
 		genre = g;
 	}
+
+	string getGenre() const
+	{
+		return genre;
+	}
 };
 
 int main()
