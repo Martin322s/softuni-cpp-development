@@ -40,6 +40,11 @@ public:
 	{
 		return genre;
 	}
+
+	bool isClassic() const
+	{
+		return year < 2000;
+	}
 };
 
 int main()
