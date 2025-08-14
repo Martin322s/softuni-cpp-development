@@ -31,3 +31,8 @@ public:
 		return rating;
 	}
 };
+
+int main()
+{
+	Movie m("Inception", 2010, 8.8);
+}
