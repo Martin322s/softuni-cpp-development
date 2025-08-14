@@ -20,4 +20,9 @@ public:
 	{
 		return title + " (" + to_string(year) + "), rating: " + to_string(rating);
 	}
+
+	void setRating(double r)
+	{
+		rating = r;
+	}
 };
