@@ -25,4 +25,9 @@ public:
 	{
 		rating = r;
 	}
+
+	double getRating() const
+	{
+		return rating;
+	}
 };
