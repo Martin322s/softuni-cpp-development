@@ -15,4 +15,9 @@ public:
 		year = y;
 		rating = r;
 	}
+
+	string getInfo() const
+	{
+		return title + " (" + to_string(year) + "), rating: " + to_string(rating);
+	}
 };
