@@ -35,4 +35,7 @@ public:
 int main()
 {
 	Movie m("Inception", 2010, 8.8);
+	cout << m.getInfo() << endl;
+	m.setRating(9.0);
+	cout << m.getInfo() << endl;
 }
