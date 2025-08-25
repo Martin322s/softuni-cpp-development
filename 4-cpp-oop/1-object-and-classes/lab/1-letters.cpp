@@ -1,75 +1,56 @@
-#include <iostream>
-#include <algorithm>
-#include <sstream>
 #include <string>
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <list>
+#include <map>
 #include <set>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
-class Letters {
-	set<string> words;
-	
-	public:
-		Letters(string line) {
-			normalize(line);
-			istringstream istr(line);
-			string tmp;
-			
-			while(istr >> tmp) words.insert(tmp);
-		}
-		
-		string process(char c) {
-			
-			ostringstream ostr;
-			
-			c = ::tolower(c);
-		
-			for(const string& curr : words) {
-				string transformed = curr;
-			
-				transform(transformed.begin(), transformed.end(), transformed.begin(), ::tolower);
-			
-				if (transformed.find(c) != string::npos) {
-					ostr << curr << ' ';
-				}
-			}
+int main(void) {
 
-			string result = ostr.str();
-			
-			if (result.size() == 0) {
-				ostr << "---" << endl;
-			}
-			
-			return result;
-		}
-	
-	private:
-		void normalize(string& buf) {
-			for(char& c : buf) {
-				if (ispunct(c)) {
-					c = ' ';
-				}
-			}
-		}
-};
+    string buf;
+    getline(cin, buf);
 
-int main() {
-	string buf;
-	getline(cin, buf);
-	
-	Letters L(buf);
-	
-	while(true) {
-		char c;
-		cin >> c;
-		
-		if (c == '.' || c == 0) 
-			break;
-			
-		cout << L.process(c) << endl;
-	}
-	
-	cout << endl;
+    for(char & c : buf)
+        //if ( !(c >= 'A' && c <='Z') && !(c>='a' && c <= 'z'))
+        if (ispunct(c))
+            c = ' ';
 
-	return 0;
+    istringstream istr(buf);
+    set<string> words;
+    string tmp;
+    while(istr >> tmp)
+        words.insert(tmp);
+
+    while(true) {
+
+        char c;
+        cin >> c;
+
+        if (c == '.')
+            break;
+
+        c = ::tolower(c);
+        bool bFound = false;
+        for(const string & curr : words) {
+            string transformed = curr; 
+            transform(transformed.begin(), transformed.end(), transformed.begin(), ::tolower);
+            if (transformed.find(c) != string::npos) {
+                bFound = true;
+                cout << curr << " ";
+            }
+        }
+
+        if (!bFound)
+            cout << "---";
+
+        cout << endl;
+    }
+
+
+    return 0;
 }
