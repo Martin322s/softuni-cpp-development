@@ -16,106 +16,78 @@ const char ALPAKA = '#';
 const char EMPTY = '.';
 const char TEMP_RUST = '?';
 
-class Board {
+void printMatrix(const char matrix[DIMENSION][DIMENSION]) {
 
-    char board[DIMENSION][DIMENSION];
+    for(size_t row = 0; row < DIMENSION; row++) {
+        for(int col = 0; col < DIMENSION; col++)
+            cout << matrix[row][col]; 
+        cout << endl;
+    }
+}
 
-    public:
+void setMatrixCell(int row, int col, char matrix[DIMENSION][DIMENSION], char symbol) {
 
-        Board(istream & istr) 
-        {
-            for(size_t row = 0; row < DIMENSION; row++)
-                for(size_t col = 0; col < DIMENSION; col++)
-                    istr >> board[row][col];
-        }
+    if (row < 0 || col < 0 || row >= DIMENSION || col >= DIMENSION)
+        return;
+    
+    matrix[row][col] = symbol;
+}
 
-        void setCell(int row, int col, char symbol) {
+void setRust(int row, int col, char matrix[DIMENSION][DIMENSION], char symbol) {
 
-            if (row < 0 || col < 0 || row >= DIMENSION || col >= DIMENSION)
-                return;
-            
-            board[row][col] = symbol;
-        }
+    if (row < 0 || col < 0 || row >= DIMENSION || col >= DIMENSION)
+        return;
+    
+    if (matrix[row][col] == EMPTY)    
+        matrix[row][col] = symbol;
+}
 
-        void setRust(int row, int col, char symbol) {
+void putTempRust(char matrix[DIMENSION][DIMENSION]) {
 
-            if (row < 0 || col < 0 || row >= DIMENSION || col >= DIMENSION)
-                return;
-            
-            if (board[row][col] == EMPTY)    
-                board[row][col] = symbol;
-        }
-
-        void print(ostream & os) {
-            for(size_t row = 0; row < DIMENSION; row++) {
-                for(int col = 0; col < DIMENSION; col++)
-                    os << board[row][col]; 
-                os << endl;
-            }
-        }
-
-        void putTempRust() 
-        {
-            for(int row = 0; row < DIMENSION; row++)
-                for(int col = 0; col < DIMENSION; col++) 
-                    if (board[row][col] == RUST)
-                    {
-                        setRust(row-1, col, TEMP_RUST);
-                        setRust(row+1, col, TEMP_RUST);
-                        setRust(row, col-1, TEMP_RUST);
-                        setRust(row, col+1, TEMP_RUST);
-                    }
-        }
-
-        void fixTempRust() 
-        {
-            for(int row = 0; row < DIMENSION; row++)
-                for(int col = 0; col < DIMENSION; col++) 
-                    if (board[row][col] == TEMP_RUST)
-                        board[row][col] = RUST;
-        }
-};
-
-class Rust {
-
-    istream & is;
-    ostream & os;
-
-    Board b;
-    size_t ticks;
-
-    public:
-
-        Rust(istream & istr, ostream & ostr) 
-            :   is(istr), 
-                os(ostr),
-                b(istr)
-        {
-            is >> ticks;
-        }
-
-        void process() 
-        {
-            for(;ticks;ticks--) {
-                b.putTempRust();
-                //cout << "----" << endl << "Tick: " << ticks << ", applied temp rust." << endl;
-                //printMatrix(matrix);
-                b.fixTempRust();
-                //cout << "----" << endl << "Tick: " << ticks << ", fixed temp rust." << endl;
-                //printMatrix(matrix);
-
+    for(int row = 0; row < DIMENSION; row++)
+        for(int col = 0; col < DIMENSION; col++) 
+            if (matrix[row][col] == RUST)
+            {
+                setRust(row-1, col, matrix, TEMP_RUST);
+                setRust(row+1, col, matrix, TEMP_RUST);
+                setRust(row, col-1, matrix, TEMP_RUST);
+                setRust(row, col+1, matrix, TEMP_RUST);
             }
 
-            b.print(os);
-        }
+}
 
-};
+void fixTempRust(char matrix[DIMENSION][DIMENSION]) {
+
+    for(int row = 0; row < DIMENSION; row++)
+        for(int col = 0; col < DIMENSION; col++) 
+            if (matrix[row][col] == TEMP_RUST)
+                matrix[row][col] = RUST;
+
+}
 
 int main(void) {
 
-    Rust r(cin, cout);
+    char matrix[DIMENSION][DIMENSION] = {0};
 
-    r.process();
+    for(size_t row = 0; row < DIMENSION; row++)
+        for(size_t col = 0; col < DIMENSION; col++)
+            cin >> matrix[row][col];
+
+    size_t ticks;
+    cin >> ticks;
+
+    for(;ticks;ticks--) {
+
+        putTempRust(matrix);
+        //cout << "----" << endl << "Tick: " << ticks << ", applied temp rust." << endl;
+        //printMatrix(matrix);
+        fixTempRust(matrix);
+        //cout << "----" << endl << "Tick: " << ticks << ", fixed temp rust." << endl;
+        //printMatrix(matrix);
+
+    }
+
+    printMatrix(matrix);
 
     return 0;
 }
