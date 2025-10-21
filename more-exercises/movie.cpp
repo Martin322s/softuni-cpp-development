@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Movie
+{
+	string title;
+	int year;
+	double rating;
+
+public:
+	Movie(string t, int y, double r)
+	{
+		title = t;
+		year = y;
+		rating = r;
+	}
+
+	string getInfo() const
+	{
+		return title + " (" + to_string(year) + "), rating: " + to_string(rating);
+	}
+
+	void setRating(double r)
+	{
+		rating = r;
+	}
+
+	double getRating() const
+	{
+		return rating;
+	}
+
+	void setGenre(const string &g)
+	{
+		genre = g;
+	}
+
+	string getGenre() const
+	{
+		return genre;
+	}
+
+	bool isClassic() const
+	{
+		return year < 2000;
+	}
+};
+
+int main()
+{
+	Movie m("Inception", 2010, 8.8, "Sci-Fi");
+
+	cout << m.getInfo() << endl;
+
+	m.setRating(9.0);
+	m.setGenre("Science Fiction");
+
+	cout << m.getInfo() << endl;
+	cout << "Genre: " << m.getGenre() << endl;
+	cout << "Is classic? " << (m.isClassic() ? "Yes" : "No") << endl;
+}

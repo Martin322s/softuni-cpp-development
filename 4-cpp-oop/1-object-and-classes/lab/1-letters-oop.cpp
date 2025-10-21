@@ -1,0 +1,75 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <set>
+#include <algorithm>
+#include <cctype>
+
+using namespace std;
+
+class Letters {
+	
+	set<string> words;
+	
+	public:	
+		Letters(string line) {
+			normalize(line);
+			
+			istringstream istr(line);
+            string tmp;
+            
+            while(istr >> tmp)
+                words.insert(tmp);
+		}
+		
+		string process(char c) {
+			ostringstream ostr;
+			
+			c = ::tolower(c);
+			
+			for(const string & curr : words) {
+				string transformed = curr;
+				
+				transform(transformed.begin(), transformed.end(), transformed.begin(), ::tolower);
+				
+				if (transformed.find(c) != string::npos) {
+					ostr << curr << " ";
+				}
+			}
+			
+			string result = ostr.str();
+			
+			if (result.size() == 0) 
+				return "---";
+				
+			return result;
+		}
+	
+	private:
+		void normalize(string & buf) {
+			for(char & c : buf)
+            	if (ispunct(c))
+                	c = ' ';
+		}
+};
+
+int main() {
+	string buf;
+    getline(cin, buf);
+    
+    Letters L(buf);
+    
+    while(true) {
+    	char c;
+    	cin >> c;
+    	
+    	if (c == '.') {
+    		break;
+		}
+		
+		cout << L.process(c) << endl;
+	}
+	
+	return 0;
+}
+
